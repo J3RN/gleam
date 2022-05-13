@@ -1,6 +1,7 @@
 {% extends "documentation_layout.html" %}
 
-{% block sidebar_content %}
+{% block toc_content %}
+<nav class="table-of-contents">
 {% if !types.is_empty() %}
 <h2>Types</h2>
 <ul>
@@ -160,4 +161,5 @@
   {% endfor %}
 </section>
 {% endif %}
+</nav>
 {% endblock %}

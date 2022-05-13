@@ -206,13 +206,13 @@
           <li><a href="{{ unnest }}/{{ module.path }}">{{ module.name }}</a></li>
         {% endfor %}
         </ul>
-
-        {% block sidebar_content %}{% endblock %}
       </nav>
 
       <main class="content">
         {% block content %}{% endblock %}
       </main>
+
+      {% block toc_content %}{% endblock %}
     </div>
 
     <script>
