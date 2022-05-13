@@ -202,12 +202,39 @@
 
         <h2>Modules</h2>
         <ul>
-        {% for module in modules %}
-          <li><a href="{{ unnest }}/{{ module.path }}">{{ module.name }}</a></li>
-        {% endfor %}
-        </ul>
+          {% for module in modules %}
+          <li>
+            <a href="{{ unnest }}/{{ module.link.path }}">{{ module.link.name }}</a>
+            <div class="module-detail">
+            {% if !module.types.is_empty() %}
+            <h3>Types</h3>
+            <ul class="type-detail">
+              {% for typ in module.types %}
+              <li><a href="#{{ typ.name }}">{{ typ.name }}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
 
-        {% block sidebar_content %}{% endblock %}
+            {% if !module.constants.is_empty() %}
+            <h3>Constants</h3>
+            <ul class="constant-detail">
+              {% for constant in module.constants %}
+              <li><a href="#{{ constant.name }}">{{ constant.name }}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if !module.functions.is_empty() %}
+            <h3>Functions</h3>
+            <ul class="function-detail">
+              {% for function in module.functions %}
+              <li><a href="#{{ function.name }}">{{ function.name }}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
       </nav>
 
       <main class="content">

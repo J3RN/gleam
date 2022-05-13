@@ -1,34 +1,5 @@
 {% extends "documentation_layout.html" %}
 
-{% block sidebar_content %}
-{% if !types.is_empty() %}
-<h2>Types</h2>
-<ul>
-  {% for typ in types %}
-  <li><a href="#{{ typ.name }}">{{ typ.name }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-{% if !constants.is_empty() %}
-<h2>Constants</h2>
-<ul>
-  {% for constant in constants %}
-  <li><a href="#{{ constant.name }}">{{ constant.name }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-
-{% if !functions.is_empty() %}
-<h2>Functions</h2>
-<ul>
-  {% for function in functions %}
-  <li><a href="#{{ function.name }}">{{ function.name }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
-{% endblock %}
-
 {% block content %}
 <h1 id="module-name" class="module-name">
   <a href="#module-name">{{ module_name }}</a>

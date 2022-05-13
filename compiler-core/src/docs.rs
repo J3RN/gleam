@@ -47,13 +47,38 @@ pub fn generate_html(
 
     let mut files = vec![];
 
-    let modules_links: Vec<_> = modules
+    let modules_data: Vec<_> = modules
         .clone()
         .map(|m| {
             let path = [&m.name, ".html"].concat();
-            Link {
+            let link = Link {
                 path,
                 name: m.name.to_string(),
+            };
+            let source_links = SourceLinker::new(config, m);
+            ModuleData {
+                link: link,
+                functions: m
+                    .ast
+                    .statements
+                    .iter()
+                    .flat_map(|statement| function(&source_links, statement))
+                    .sorted()
+                    .collect(),
+                types: m
+                    .ast
+                    .statements
+                    .iter()
+                    .flat_map(|statement| type_(&source_links, statement))
+                    .sorted()
+                    .collect(),
+                constants:  m
+                    .ast
+                    .statements
+                    .iter()
+                    .flat_map(|statement| constant(&source_links, statement))
+                    .sorted()
+                    .collect(),
             }
         })
         .sorted()
@@ -68,7 +93,7 @@ pub fn generate_html(
             unnest: ".".to_string(),
             links: &links,
             pages: &pages,
-            modules: &modules_links,
+            modules: &modules_data,
             project_name: &config.name,
             page_title: &config.name,
             project_version: &config.version.to_string(),
@@ -100,7 +125,7 @@ pub fn generate_html(
             links: &links,
             pages: &pages,
             documentation: render_markdown(&module.ast.documentation.iter().join("\n")),
-            modules: &modules_links,
+            modules: &modules_data,
             project_name: &config.name,
             page_title: &format!("{} - {}", name, config.name),
             module_name: name,
@@ -380,8 +405,16 @@ struct PageTemplate<'a> {
     project_version: &'a str,
     pages: &'a [Link],
     links: &'a [Link],
-    modules: &'a [Link],
+    modules: &'a [ModuleData<'a>],
     content: String,
+}
+
+#[derive(PartialEq, Eq, PartialOrd, Ord)]
+struct ModuleData<'a> {
+    link: Link,
+    functions: Vec<Function<'a>>,
+    types: Vec<Type<'a>>,
+    constants: Vec<Constant<'a>>,
 }
 
 #[derive(Template)]
@@ -395,7 +428,7 @@ struct ModuleTemplate<'a> {
     project_version: &'a str,
     pages: &'a [Link],
     links: &'a [Link],
-    modules: &'a [Link],
+    modules: &'a [ModuleData<'a>],
     functions: Vec<Function<'a>>,
     types: Vec<Type<'a>>,
     constants: Vec<Constant<'a>>,

@@ -309,6 +309,30 @@ p code {
   margin-bottom: 4px;
 }
 
+.sidebar .module-detail {
+  display: none;
+  border-left: 1px solid white;
+  padding-left: 5px;
+}
+
+.sidebar .module-detail .type-detail {
+  display: none;
+  border-left: 1px solid white;
+  padding-left: 5px;
+}
+
+.sidebar .module-detail .constant-detail {
+  display: none;
+  border-left: 1px solid white;
+  padding-left: 5px;
+}
+
+.sidebar .module-detail .function-detail {
+  display: none;
+  border-left: 1px solid white;
+  padding-left: 5px;
+}
+
 .sidebar .sidebar-toggle {
   color: var(--pink);
   font-size: calc(.8 * var(--sidebar-toggle-size));
